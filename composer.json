@@ -1,0 +1,25 @@
+{
+  "name": "akens/laravel-helpers",
+  "description": "A library of helpers for use with the Laravel framework.",
+  "authors": [
+    {
+      "name": "Geoff Akens",
+      "email": "geoff@geoffakens.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "doctrine/dbal": "v2.5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "mockery/mockery": "*",
+    "phpdocumentor/phpdocumentor": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Akens\\Laravel\\Models": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
