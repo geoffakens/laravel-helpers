@@ -1,0 +1,9 @@
+destination:
+    - ./docs
+
+source:
+    - src
+
+title: Laravel Helpers
+
+templateTheme: bootstrap

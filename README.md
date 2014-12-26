@@ -12,3 +12,6 @@ Install via Composer:
     "akens/laravel-helpers": "dev-master"
 }
 ```
+## Documentation
+
+[API](http://docs.geoffakens.com/laravel-helpers/)

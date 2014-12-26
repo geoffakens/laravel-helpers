@@ -47,7 +47,7 @@ class ParameterConverter {
     }
 
     /**
-     * Converts a parameter value to the appropriate type or format required for the query.
+     * Converts a string parameter value to the appropriate type or format required for the query.
      *
      * @param $value string The parameter value to convert.
      *

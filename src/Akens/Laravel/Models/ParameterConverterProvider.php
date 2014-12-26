@@ -8,6 +8,8 @@ use Doctrine\DBAL\Types\Type;
  * Factory class for providing ParameterConverter instances.
  *
  * @package Akens\Laravel\Models
+ *
+ * @see \Akens\Laravel\Models\ParameterConverter
  */
 class ParameterConverterProvider {
     /**
@@ -16,7 +18,9 @@ class ParameterConverterProvider {
     protected static $converters = array();
 
     /**
-     * @var array Mapping of column type to ParameterConverter type.
+     * @var array Mapping of Doctrine column type to ParameterConverter type.
+     *
+     * @link http://www.doctrine-project.org/api/dbal/2.5/class-Doctrine.DBAL.Types.Type.html
      */
     protected static $parameterConverterMap = array(
         Type::BOOLEAN => 'Akens\Laravel\Models\BooleanParameterConverter',
@@ -29,6 +33,9 @@ class ParameterConverterProvider {
 
     /**
      * Initializes and caches a set of ParameterConverters for the given table's columns.
+     *
+     * Makes use of the Doctrine database abstraction layer to query a table's schema.
+     * @link http://www.doctrine-project.org/
      *
      * @param $tableName string The name of the table to initialize a set of ParameterConverters for.
      */
@@ -74,6 +81,8 @@ class ParameterConverterProvider {
      * @param $columnName string The name of the column in the table.
      *
      * @return ParameterConverter  A ParameterConverter instance for the table column, or null if the column does not exist in the table.
+     *
+     * @see \Akens\Laravel\Models\ParameterConverter
      */
     public static function getParameterConverter($tableName, $columnName)
     {

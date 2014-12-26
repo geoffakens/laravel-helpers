@@ -12,9 +12,9 @@
     "doctrine/dbal": "v2.5.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
-    "mockery/mockery": "*",
-    "phpdocumentor/phpdocumentor": "*"
+    "phpunit/phpunit": "~4.6@dev",
+    "mockery/mockery": "~0.9@dev",
+    "apigen/apigen": "~4.0@dev"
   },
   "autoload": {
     "psr-0": {
