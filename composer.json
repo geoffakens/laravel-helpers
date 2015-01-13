@@ -18,8 +18,8 @@
     "apigen/apigen": "~4.0@dev"
   },
   "autoload": {
-    "psr-0": {
-      "Akens\\Laravel\\": "src/"
+    "psr-4": {
+      "Akens\\": "src/Akens"
     }
   },
   "minimum-stability": "dev"
