@@ -1,7 +1,7 @@
 <?php
 namespace Akens\Laravel\Hashing;
 
-use Illuminate\Hashing;
+use Illuminate\Hashing\HasherInterface;
 
 /**
  * A simple MD5 hasher.

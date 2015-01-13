@@ -1,7 +1,7 @@
 <?php
 namespace Akens\Laravel\Hashing;
 
-use Illuminate\Hashing;
+use Illuminate\Hashing\HashServiceProvider;
 
 /**
  * A provider for the simple MD5 hasher.
