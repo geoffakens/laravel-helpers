@@ -28,6 +28,7 @@ class ParameterConverterProvider {
         Type::SMALLINT => 'Akens\Laravel\Models\IntegerParameterConverter',
         Type::BIGINT => 'Akens\Laravel\Models\IntegerParameterConverter',
         Type::STRING => 'Akens\Laravel\Models\StringParameterConverter',
+        Type::TEXT => 'Akens\Laravel\Models\StringParameterConverter',
         Type::DATE => 'Akens\Laravel\Models\DateParameterConverter',
     );
 
@@ -50,9 +51,9 @@ class ParameterConverterProvider {
         // Query the table schema.
         $db = App::make('db');
         $schemaManager = $db->getDoctrineSchemaManager($tableName);
-        $columns = $schemaManager->listTableColumns($tableName);
 
         // Create ParameterConverters for each column.
+        $columns = $schemaManager->listTableColumns($tableName);
         foreach($columns as $columnName => $column)
         {
             // Create a closure to handle converting parameter values to database values.
@@ -71,6 +72,21 @@ class ParameterConverterProvider {
                 static::$converters[$tableName][$columnName] = new ParameterConverter($columnName, $columnValueConverter);
             }
 
+        }
+
+        // Create ParameterConverters for each FULLTEXT index.
+        $indexes = $schemaManager->listTableIndexes($tableName);
+        $fulltextValueConverter = function($value)
+        {
+            return $value;
+        };
+        foreach($indexes as $index)
+        {
+            if($index->hasFlag('FULLTEXT'))
+            {
+                $columnNames = join(',', $index->getColumns());
+                static::$converters[$tableName][$index->getName()] = new FullTextParameterConverter($columnNames, $fulltextValueConverter);
+            }
         }
     }
 

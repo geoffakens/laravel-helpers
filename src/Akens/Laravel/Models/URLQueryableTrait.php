@@ -29,8 +29,8 @@ namespace Akens\Laravel\Models;
  *     $orderByDir = Input::get('order_by_dir', 'asc');
  *     $queryParameters = Input::except('per_page', 'order_by', 'order_by_dir');
  *
- *     // Build, execute and return a query using the URL parameters from the request.
- *     return $this->user->buildQueryFromParameters($queryParameters)
+ *     return $this->user
+ *         ->findWhere($queryParameters)
  *         ->orderBy($orderBy, $orderByDir)
  *         ->paginate($perPage);
  * }
@@ -40,16 +40,15 @@ namespace Akens\Laravel\Models;
  */
 trait URLQueryableTrait {
     /**
-     * Builds a new query with the given parameters.
+     * Defines a scope to query for all records that match the given parameters.
      *
      * @param array $parameters The parameters to use when building the query.  Parameters that do not match a column in
      * the model's table will be ignored.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function buildQueryFromParameters(array $parameters)
+    public function scopeFindWhere($query, array $parameters)
     {
-        $query = $this->newQuery();
         foreach($parameters as $paramName => $paramValue)
         {
             $query = $this->addWhereToQuery($query, $paramName, $paramValue);
