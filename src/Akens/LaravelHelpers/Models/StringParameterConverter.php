@@ -1,10 +1,10 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 /**
  * A subclass of ParameterConverter for handling string parameters.
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  */
 class StringParameterConverter extends ParameterConverter {
     /**

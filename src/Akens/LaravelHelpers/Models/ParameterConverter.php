@@ -1,17 +1,17 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 /**
  * Exception thrown when a URL parameter can't be converted to the appropriate type.
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  */
 class InvalidParameterValueException extends \Exception {};
 
 /**
  * Class for converting a URL parameter to the appropriate type and format for a query where clause.
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  */
 class ParameterConverter {
     /**

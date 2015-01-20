@@ -1,5 +1,5 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 use Mockery;
 
@@ -59,7 +59,7 @@ class BooleanParameterConverterTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException \Akens\Laravel\Models\InvalidParameterValueException
+     * @expectedException \Akens\LaravelHelpers\Models\InvalidParameterValueException
      */
     public function testInvalidParameterValueExceptionIsThrow()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 use Mockery;
 use DateTime;

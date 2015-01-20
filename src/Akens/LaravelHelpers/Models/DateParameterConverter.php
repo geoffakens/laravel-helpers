@@ -1,12 +1,12 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 use DateTime;
 
 /**
  * A subclass of ParameterConverter for handling date parameters.
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  */
 class DateParameterConverter extends ParameterConverter {
     /**

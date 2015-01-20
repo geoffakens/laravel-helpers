@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: gakens
- * Date: 12/22/14
- * Time: 1:42 PM
- */
-
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 use Mockery;
 

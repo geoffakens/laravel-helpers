@@ -1,5 +1,5 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 use Illuminate\Support\Facades\App;
 use Doctrine\DBAL\Types\Type;
@@ -7,9 +7,9 @@ use Doctrine\DBAL\Types\Type;
 /**
  * Factory class for providing ParameterConverter instances.
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  *
- * @see \Akens\Laravel\Models\ParameterConverter
+ * @see \Akens\LaravelHelpers\Models\ParameterConverter
  */
 class ParameterConverterProvider {
     /**
@@ -23,13 +23,13 @@ class ParameterConverterProvider {
      * @link http://www.doctrine-project.org/api/dbal/2.5/class-Doctrine.DBAL.Types.Type.html
      */
     protected static $parameterConverterMap = array(
-        Type::BOOLEAN => 'Akens\Laravel\Models\BooleanParameterConverter',
-        Type::INTEGER => 'Akens\Laravel\Models\IntegerParameterConverter',
-        Type::SMALLINT => 'Akens\Laravel\Models\IntegerParameterConverter',
-        Type::BIGINT => 'Akens\Laravel\Models\IntegerParameterConverter',
-        Type::STRING => 'Akens\Laravel\Models\StringParameterConverter',
-        Type::TEXT => 'Akens\Laravel\Models\StringParameterConverter',
-        Type::DATE => 'Akens\Laravel\Models\DateParameterConverter',
+        Type::BOOLEAN => 'Akens\LaravelHelpers\Models\BooleanParameterConverter',
+        Type::INTEGER => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
+        Type::SMALLINT => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
+        Type::BIGINT => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
+        Type::STRING => 'Akens\LaravelHelpers\Models\StringParameterConverter',
+        Type::TEXT => 'Akens\LaravelHelpers\Models\StringParameterConverter',
+        Type::DATE => 'Akens\LaravelHelpers\Models\DateParameterConverter',
     );
 
     /**
@@ -98,7 +98,7 @@ class ParameterConverterProvider {
      *
      * @return ParameterConverter  A ParameterConverter instance for the table column, or null if the column does not exist in the table.
      *
-     * @see \Akens\Laravel\Models\ParameterConverter
+     * @see \Akens\LaravelHelpers\Models\ParameterConverter
      */
     public static function getParameterConverter($tableName, $columnName)
     {

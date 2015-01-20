@@ -1,5 +1,5 @@
 <?php
-namespace Akens\Laravel\Models;
+namespace Akens\LaravelHelpers\Models;
 
 /**
  * Trait to make a model queryable via URL parameters.  The trait will inspect the model's table and make each column
@@ -36,7 +36,7 @@ namespace Akens\Laravel\Models;
  * }
  * </code>
  *
- * @package Akens\Laravel\Models
+ * @package Akens\LaravelHelpers\Models
  */
 trait URLQueryableTrait {
     /**

@@ -1,14 +1,15 @@
 <?php
-namespace Akens\Laravel\Hashing;
+namespace Akens\LaravelHelpers\Hashing;
 
 use Illuminate\Hashing\HasherInterface;
+use Illuminate\Support\Facades\Config;
 
 /**
- * A simple MD5 hasher.
+ * A hasher that can be used to create hashes using the same algorithms used by CakePHP.
  *
  * @package Akens\Laravel\Hashing
  */
-class Md5Hasher implements HasherInterface {
+class CakeHasher implements HasherInterface {
 
     /**
      * Hash the given value.
@@ -19,6 +20,27 @@ class Md5Hasher implements HasherInterface {
      */
     public function make($value, array $options = array())
     {
+        $salt = Config::get('laravel-helpers::hash.salt');
+        $type = Config::get('laravel-helpers::hash.type');
+
+        if (!empty($salt)) {
+            $value = $salt . $value;
+        }
+
+        $type = strtolower($type);
+
+        if ($type == 'sha1' || $type == null) {
+            if (function_exists('sha1')) {
+                $return = sha1($value);
+                return $return;
+            }
+            $type = 'sha256';
+        }
+
+        if ($type == 'sha256' && function_exists('mhash')) {
+            return bin2hex(mhash(MHASH_SHA256, $value));
+        }
+
         return md5($value);
     }
 
@@ -32,7 +54,7 @@ class Md5Hasher implements HasherInterface {
      */
     public function check($value, $hashedValue, array $options = array())
     {
-        return $this->make($value) === $hashedValue;
+        return $this->make($value, $options) === $hashedValue;
     }
 
     /**
