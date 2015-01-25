@@ -27,8 +27,8 @@ class ParameterConverter {
     /**
      * Constructs a new ParameterConverter.
      *
-     * @param $columnName string The name of the column that this ParameterConverter will handle.
-     * @param $columnValueConverter callable A callback that can be used to convert parameter values to database values.
+     * @param string $columnName The name of the column that this ParameterConverter will handle.
+     * @param callable $columnValueConverter A callback that can be used to convert parameter values to database values.
      */
     public function __construct($columnName, $columnValueConverter)
     {
@@ -49,7 +49,7 @@ class ParameterConverter {
     /**
      * Converts a string parameter value to the appropriate type or format required for the query.
      *
-     * @param $value string The parameter value to convert.
+     * @param string $value The parameter value to convert.
      *
      * @return mixed The converted value.
      */
@@ -61,7 +61,7 @@ class ParameterConverter {
     /**
      * Converts a parameter value to the database value required for the query.
      *
-     * @param $value string The value to be converted.
+     * @param string $value The value to be converted.
      *
      * @return mixed The converted value.
      */
@@ -73,8 +73,8 @@ class ParameterConverter {
     /**
      * Adds a where clause to the specified query with the given value converted to the appropriate type for the column.
      *
-     * @param $query \Illuminate\Database\Eloquent\Builder The query builder to add the where clause to.
-     * @param $value string The value to be converted for use in the where clause.
+     * @param \Illuminate\Database\Eloquent\Builder $query The query builder to add the where clause to.
+     * @param string $value The value to be converted for use in the where clause.
      *
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */

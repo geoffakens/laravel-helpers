@@ -23,8 +23,8 @@ class FullTextParameterConverter extends ParameterConverter {
     /**
      * Overrides the base implementation to add a raw where clause with a MATCH statement.
      *
-     * @param $query \Illuminate\Database\Eloquent\Builder The query builder to add the where clause to.
-     * @param $value string The value to be converted for use in the where clause.
+     * @param \Illuminate\Database\Eloquent\Builder $query The query builder to add the where clause to.
+     * @param string $value The value to be converted for use in the where clause.
      *
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */

@@ -40,7 +40,7 @@ class ParameterConverterProvider {
      *
      * @param $tableName string The name of the table to initialize a set of ParameterConverters for.
      */
-    protected static function initConvertersForTable($tableName)
+    protected static function initConvertersForTable($connection, $tableName)
     {
         // ParameterConverters are cached to avoid querying the table schema repeatedly.
         if (isset(static::$converters[$tableName]))
@@ -49,8 +49,7 @@ class ParameterConverterProvider {
         }
 
         // Query the table schema.
-        $db = App::make('db');
-        $schemaManager = $db->getDoctrineSchemaManager($tableName);
+        $schemaManager = $connection->getDoctrineSchemaManager($tableName);
 
         // Create ParameterConverters for each column.
         $columns = $schemaManager->listTableColumns($tableName);
@@ -93,16 +92,17 @@ class ParameterConverterProvider {
     /**
      * Factory method for getting a ParameterConverter instance.
      *
-     * @param $tableName string The name of the table containing the column.
-     * @param $columnName string The name of the column in the table.
+     * @param \Illuminate\Database\Connection $connection The connection to use when getting table schema information.
+     * @param string $tableName The name of the table containing the column.
+     * @param string $columnName The name of the column in the table.
      *
-     * @return ParameterConverter  A ParameterConverter instance for the table column, or null if the column does not exist in the table.
+     * @return ParameterConverter A ParameterConverter instance for the table column, or null if the column does not exist in the table.
      *
      * @see \Akens\LaravelHelpers\Models\ParameterConverter
      */
-    public static function getParameterConverter($tableName, $columnName)
+    public static function getParameterConverter($connection, $tableName, $columnName)
     {
-        static::initConvertersForTable($tableName);
+        static::initConvertersForTable($connection, $tableName);
         if(array_key_exists($columnName, static::$converters[$tableName]))
         {
             return static::$converters[$tableName][$columnName];

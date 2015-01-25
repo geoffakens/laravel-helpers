@@ -59,15 +59,15 @@ trait URLQueryableTrait {
     /**
      * Adds a where clause to the specified query for the given parameter and value.
      *
-     * @param $query \Illuminate\Database\Eloquent\Builder The query builder to add the where clause to.
-     * @param $paramName string The name of the parameter being added to the query.
-     * @param $paramValue string The value of the parameter being added to the query.
+     * @param \Illuminate\Database\Eloquent\Builder $query The query builder to add the where clause to.
+     * @param string $paramName The name of the parameter being added to the query.
+     * @param string $paramValue The value of the parameter being added to the query.
      *
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */
     protected function addWhereToQuery($query, $paramName, $paramValue)
     {
-        $converter = ParameterConverterProvider::getParameterConverter($this->table, $paramName);
+        $converter = ParameterConverterProvider::getParameterConverter($this->getConnection(), $this->getTable(), $paramName);
         if(isset($converter))
         {
             return $converter->addWhereToQuery($query, $paramValue);
