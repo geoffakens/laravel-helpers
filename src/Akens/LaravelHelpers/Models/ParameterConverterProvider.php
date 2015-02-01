@@ -82,7 +82,9 @@ class ParameterConverterProvider {
         {
             if($index->hasFlag('FULLTEXT'))
             {
-                $columnNames = join(',', $index->getColumns());
+                $columnNames = join(',', array_map(function($column) use ($tableName) {
+                    return "{$tableName}.{$column}";
+                }, $index->getColumns()));
                 static::$converters[$tableName]["{$tableName}.{$index->getName()}"] = new FullTextParameterConverter($columnNames, $fulltextValueConverter);
             }
         }
