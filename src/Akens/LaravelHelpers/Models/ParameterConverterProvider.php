@@ -64,13 +64,12 @@ class ParameterConverterProvider {
 
             if (array_key_exists($column->getType()->getName(), static::$parameterConverterMap))
             {
-                static::$converters[$tableName][$columnName] = new static::$parameterConverterMap[$column->getType()->getName()]($columnName, $columnValueConverter);
+                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new static::$parameterConverterMap[$column->getType()->getName()]("{$tableName}.{$columnName}", $columnValueConverter);
             }
             else
             {
-                static::$converters[$tableName][$columnName] = new ParameterConverter($columnName, $columnValueConverter);
+                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new ParameterConverter("{$tableName}.{$columnName}", $columnValueConverter);
             }
-
         }
 
         // Create ParameterConverters for each FULLTEXT index.
@@ -84,7 +83,7 @@ class ParameterConverterProvider {
             if($index->hasFlag('FULLTEXT'))
             {
                 $columnNames = join(',', $index->getColumns());
-                static::$converters[$tableName][$index->getName()] = new FullTextParameterConverter($columnNames, $fulltextValueConverter);
+                static::$converters[$tableName]["{$tableName}.{$index->getName()}"] = new FullTextParameterConverter($columnNames, $fulltextValueConverter);
             }
         }
     }
@@ -102,6 +101,11 @@ class ParameterConverterProvider {
      */
     public static function getParameterConverter($connection, $tableName, $columnName)
     {
+        // Make sure the column name includes the table name.
+        if(!preg_match('|(?mi-Us)' . $tableName . '\\.|', $columnName)) {
+            $columnName = "{$tableName}.{$columnName}";
+        }
+
         static::initConvertersForTable($connection, $tableName);
         if(array_key_exists($columnName, static::$converters[$tableName]))
         {

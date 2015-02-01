@@ -47,7 +47,7 @@ trait URLQueryableTrait {
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFindWhere($query, array $parameters)
+    public function scopeWhereMatchesParameters($query, array $parameters)
     {
         foreach($parameters as $paramName => $paramValue)
         {
