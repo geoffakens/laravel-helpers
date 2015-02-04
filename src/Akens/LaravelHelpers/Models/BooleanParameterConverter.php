@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 /**
  * A subclass of ParameterConverter for handling boolean parameters.
@@ -20,8 +19,7 @@ class BooleanParameterConverter extends ParameterConverter {
      */
     public function convertValue($value) {
         $lowercaseParameterValue = strtolower($value);
-        switch($lowercaseParameterValue)
-        {
+        switch ($lowercaseParameterValue) {
             case 'true':
             case 'yes':
             case '1':
@@ -31,7 +29,8 @@ class BooleanParameterConverter extends ParameterConverter {
             case '0':
                 return false;
             default:
-                throw new InvalidParameterValueException(sprintf("Unable to convert '%s' to boolean.  Valid values include 'true', 'false', 'yes', 'no', '1', or '0'.", $value));
+                throw new InvalidParameterValueException(sprintf("Unable to convert '%s' to boolean.  Valid values include 'true', 'false', 'yes', 'no', '1', or '0'.",
+                    $value));
         }
     }
 }

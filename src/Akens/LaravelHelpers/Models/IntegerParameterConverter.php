@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 /**
  * A subclass of ParameterConverter for handling integer parameters.
@@ -18,8 +17,7 @@ class IntegerParameterConverter extends ParameterConverter {
      */
     public function convertValue($value) {
         $intValue = intval($value);
-        if($intValue === 0 && $value !== '0')
-        {
+        if ($intValue === 0 && $value !== '0') {
             throw new InvalidParameterValueException();
         }
         return $intValue;

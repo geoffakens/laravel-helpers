@@ -3,18 +3,15 @@
 use Assetic\Filter\FilterInterface;
 use Assetic\Asset\AssetInterface;
 
-class I18NextFilter  implements FilterInterface {
-    public function filterLoad(AssetInterface $asset)
-    {
+class I18NextFilter implements FilterInterface {
+    public function filterLoad(AssetInterface $asset) {
     }
 
-    public function filterDump(AssetInterface $asset)
-    {
+    public function filterDump(AssetInterface $asset) {
         $asset->setContent($this->evalContent($asset->getContent()));
     }
 
-    protected function evalContent($content)
-    {
+    protected function evalContent($content) {
         // Eliminate the opening <?php tag.
         $content = preg_replace('|(?mi-Us)<\\?php|', '', $content);
 

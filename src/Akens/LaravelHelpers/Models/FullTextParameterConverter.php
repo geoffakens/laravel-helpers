@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 /**
  * A subclass of ParameterConverter for handling FULLTEXT parameters.
@@ -28,8 +27,7 @@ class FullTextParameterConverter extends ParameterConverter {
      *
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */
-    public function addWhereToQuery($query, $value)
-    {
+    public function addWhereToQuery($query, $value) {
         $term = $this->getQueryValue($value);
         $rawQuery = $query->getQuery();
         $rawQuery->whereRaw("MATCH($this->columnName) AGAINST ('$term')");

@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 use DateTime;
 
@@ -18,13 +17,12 @@ class DateParameterConverter extends ParameterConverter {
      *
      * @throws InvalidParameterValueException When the value can't be converted to a DateTime.
      */
-    public function convertValue($value)
-    {
-        $convertedValue =  DateTime::createFromFormat('Y-m-d', $value);
+    public function convertValue($value) {
+        $convertedValue = DateTime::createFromFormat('Y-m-d', $value);
 
-        if($convertedValue === false)
-        {
-            throw new InvalidParameterValueException(sprintf("Unable to convert '%s' to DateTime.  Valid values should use the Y-m-d format.", $value));
+        if ($convertedValue === false) {
+            throw new InvalidParameterValueException(sprintf("Unable to convert '%s' to DateTime.  Valid values should use the Y-m-d format.",
+                $value));
         }
 
         return $convertedValue;

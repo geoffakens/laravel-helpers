@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 /**
  * Trait to make a model queryable via URL parameters.  The trait will inspect the model's table and make each column
@@ -47,10 +46,8 @@ trait URLQueryableTrait {
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWhereMatchesParameters($query, array $parameters)
-    {
-        foreach($parameters as $paramName => $paramValue)
-        {
+    public function scopeWhereMatchesParameters($query, array $parameters) {
+        foreach ($parameters as $paramName => $paramValue) {
             $query = $this->addWhereToQuery($query, $paramName, $paramValue);
         }
         return $query;
@@ -65,11 +62,10 @@ trait URLQueryableTrait {
      *
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */
-    protected function addWhereToQuery($query, $paramName, $paramValue)
-    {
-        $converter = ParameterConverterProvider::getParameterConverter($this->getConnection(), $this->getTable(), $paramName);
-        if(isset($converter))
-        {
+    protected function addWhereToQuery($query, $paramName, $paramValue) {
+        $converter = ParameterConverterProvider::getParameterConverter($this->getConnection(), $this->getTable(),
+            $paramName);
+        if (isset($converter)) {
             return $converter->addWhereToQuery($query, $paramValue);
         }
         return $query;

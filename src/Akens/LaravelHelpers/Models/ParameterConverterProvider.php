@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 use Illuminate\Support\Facades\App;
 use Doctrine\DBAL\Types\Type;
@@ -12,6 +11,7 @@ use Doctrine\DBAL\Types\Type;
  * @see \Akens\LaravelHelpers\Models\ParameterConverter
  */
 class ParameterConverterProvider {
+
     /**
      * @var array Cached ParameterConverters used by the factory method.
      */
@@ -33,64 +33,6 @@ class ParameterConverterProvider {
     );
 
     /**
-     * Initializes and caches a set of ParameterConverters for the given table's columns.
-     *
-     * Makes use of the Doctrine database abstraction layer to query a table's schema.
-     * @link http://www.doctrine-project.org/
-     *
-     * @param $tableName string The name of the table to initialize a set of ParameterConverters for.
-     */
-    protected static function initConvertersForTable($connection, $tableName)
-    {
-        // ParameterConverters are cached to avoid querying the table schema repeatedly.
-        if (isset(static::$converters[$tableName]))
-        {
-            return;
-        }
-
-        // Query the table schema.
-        $schemaManager = $connection->getDoctrineSchemaManager($tableName);
-
-        // Create ParameterConverters for each column.
-        $columns = $schemaManager->listTableColumns($tableName);
-        foreach($columns as $columnName => $column)
-        {
-            // Create a closure to handle converting parameter values to database values.
-            $columnValueConverter = function($value) use($schemaManager, $column)
-            {
-                $columnType = $column->getType();
-                return $columnType->convertToDatabaseValue($value, $schemaManager->getDatabasePlatform());
-            };
-
-            if (array_key_exists($column->getType()->getName(), static::$parameterConverterMap))
-            {
-                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new static::$parameterConverterMap[$column->getType()->getName()]("{$tableName}.{$columnName}", $columnValueConverter);
-            }
-            else
-            {
-                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new ParameterConverter("{$tableName}.{$columnName}", $columnValueConverter);
-            }
-        }
-
-        // Create ParameterConverters for each FULLTEXT index.
-        $indexes = $schemaManager->listTableIndexes($tableName);
-        $fulltextValueConverter = function($value)
-        {
-            return $value;
-        };
-        foreach($indexes as $index)
-        {
-            if($index->hasFlag('FULLTEXT'))
-            {
-                $columnNames = join(',', array_map(function($column) use ($tableName) {
-                    return "{$tableName}.{$column}";
-                }, $index->getColumns()));
-                static::$converters[$tableName]["{$tableName}.{$index->getName()}"] = new FullTextParameterConverter($columnNames, $fulltextValueConverter);
-            }
-        }
-    }
-
-    /**
      * Factory method for getting a ParameterConverter instance.
      *
      * @param \Illuminate\Database\Connection $connection The connection to use when getting table schema information.
@@ -101,18 +43,68 @@ class ParameterConverterProvider {
      *
      * @see \Akens\LaravelHelpers\Models\ParameterConverter
      */
-    public static function getParameterConverter($connection, $tableName, $columnName)
-    {
+    public static function getParameterConverter($connection, $tableName, $columnName) {
         // Make sure the column name includes the table name.
-        if(!preg_match('|(?mi-Us)' . $tableName . '\\.|', $columnName)) {
+        if (!preg_match('|(?mi-Us)' . $tableName . '\\.|', $columnName)) {
             $columnName = "{$tableName}.{$columnName}";
         }
 
         static::initConvertersForTable($connection, $tableName);
-        if(array_key_exists($columnName, static::$converters[$tableName]))
-        {
+        if (array_key_exists($columnName, static::$converters[$tableName])) {
             return static::$converters[$tableName][$columnName];
         }
         return null;
+    }
+
+    /**
+     * Initializes and caches a set of ParameterConverters for the given table's columns.
+     *
+     * Makes use of the Doctrine database abstraction layer to query a table's schema.
+     * @link http://www.doctrine-project.org/
+     *
+     * @param $tableName string The name of the table to initialize a set of ParameterConverters for.
+     */
+    protected static function initConvertersForTable($connection, $tableName) {
+        // ParameterConverters are cached to avoid querying the table schema repeatedly.
+        if (isset(static::$converters[$tableName])) {
+            return;
+        }
+
+        // Query the table schema.
+        $schemaManager = $connection->getDoctrineSchemaManager($tableName);
+
+        // Create ParameterConverters for each column.
+        $columns = $schemaManager->listTableColumns($tableName);
+        foreach ($columns as $columnName => $column) {
+            // Create a closure to handle converting parameter values to database values.
+            $columnValueConverter = function ($value) use ($schemaManager, $column) {
+                $columnType = $column->getType();
+                return $columnType->convertToDatabaseValue($value, $schemaManager->getDatabasePlatform());
+            };
+
+            if (array_key_exists($column->getType()->getName(), static::$parameterConverterMap)) {
+                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new static::$parameterConverterMap[$column->getType()->getName()]("{$tableName}.{$columnName}",
+                    $columnValueConverter);
+            }
+            else {
+                static::$converters[$tableName]["{$tableName}.{$columnName}"] = new ParameterConverter("{$tableName}.{$columnName}",
+                    $columnValueConverter);
+            }
+        }
+
+        // Create ParameterConverters for each FULLTEXT index.
+        $indexes = $schemaManager->listTableIndexes($tableName);
+        $fulltextValueConverter = function ($value) {
+            return $value;
+        };
+        foreach ($indexes as $index) {
+            if ($index->hasFlag('FULLTEXT')) {
+                $columnNames = join(',', array_map(function ($column) use ($tableName) {
+                    return "{$tableName}.{$column}";
+                }, $index->getColumns()));
+                static::$converters[$tableName]["{$tableName}.{$index->getName()}"] = new FullTextParameterConverter($columnNames,
+                    $fulltextValueConverter);
+            }
+        }
     }
 }

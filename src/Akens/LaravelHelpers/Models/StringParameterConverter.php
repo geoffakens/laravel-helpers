@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Models;
+<?php namespace Akens\LaravelHelpers\Models;
 
 /**
  * A subclass of ParameterConverter for handling string parameters.
@@ -23,8 +22,7 @@ class StringParameterConverter extends ParameterConverter {
      *
      * @return string The query operator used when adding a where clause to a query.
      */
-    protected function getQueryOperator()
-    {
+    protected function getQueryOperator() {
         return 'LIKE';
     }
 }

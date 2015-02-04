@@ -7,6 +7,7 @@ use Assetic\AssetManager;
 use Assetic\FilterManager;
 
 class Asset extends \Slushie\LaravelAssetic\Asset {
+
     /**
      * Override the namespace used to read the config.
      *
@@ -18,7 +19,7 @@ class Asset extends \Slushie\LaravelAssetic\Asset {
      * Create a new AssetCollection instance for the given group.
      *
      * @param string $name
-     * @param bool   $overwrite force writing
+     * @param bool $overwrite force writing
      * @return \Assetic\Asset\AssetCollection
      */
     public function createGroup($name, $overwrite = false) {
@@ -36,25 +37,27 @@ class Asset extends \Slushie\LaravelAssetic\Asset {
         }
 
         // check output cache
-        $write_output = true;
-        if (!$overwrite) {
-            if (file_exists($output = public_path($coll->getTargetPath()))) {
-                $output_mtime = filemtime($output);
-                $asset_mtime = $coll->getLastModified();
+        $writeOutput = true;
+        if (!$overwrite && file_exists($output = public_path($coll->getTargetPath()))) {
+            $outputModTime = filemtime($output);
+            $assetModTime = $coll->getLastModified();
 
-                if ($asset_mtime && $output_mtime >= $asset_mtime) {
-                    $write_output = false;
-                }
+            if ($assetModTime && $outputModTime >= $assetModTime) {
+                $writeOutput = false;
             }
         }
 
         // store assets
-        if ($overwrite || $write_output) {
+        if ($overwrite || $writeOutput) {
             $writer = new AssetWriter(public_path());
             $writer->writeAsset($coll);
         }
 
         return $this->groups[$name] = $coll;
+    }
+
+    protected function getConfig($group, $key, $default = null) {
+        return Config::get($this->namespace . "::asset.groups.$group.$key", $default);
     }
 
     /**
@@ -106,9 +109,5 @@ class Asset extends \Slushie\LaravelAssetic\Asset {
         }
 
         return $this->assets = $manager;
-    }
-
-    protected function getConfig($group, $key, $default = null) {
-        return Config::get($this->namespace . "::asset.groups.$group.$key", $default);
     }
 }

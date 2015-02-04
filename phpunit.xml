@@ -11,8 +11,12 @@
          syntaxCheck="false"
         >
     <testsuites>
-        <testsuite name="Unit Tests">
+        <testsuite name="Laravel Helpers Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-clover" target="phpunit-reports/coverage.xml"/>
+        <log type="junit" target="phpunit-reports/tests.xml" logIncompleteSkipped="false"/>
+    </logging>
 </phpunit>

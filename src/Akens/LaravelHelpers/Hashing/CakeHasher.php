@@ -1,5 +1,4 @@
-<?php
-namespace Akens\LaravelHelpers\Hashing;
+<?php namespace Akens\LaravelHelpers\Hashing;
 
 use Illuminate\Hashing\HasherInterface;
 use Illuminate\Support\Facades\Config;
@@ -12,14 +11,25 @@ use Illuminate\Support\Facades\Config;
 class CakeHasher implements HasherInterface {
 
     /**
+     * Check the given plain value against a hash.
+     *
+     * @param  string $value
+     * @param  string $hashedValue
+     * @param  array $options
+     * @return bool
+     */
+    public function check($value, $hashedValue, array $options = array()) {
+        return $this->make($value, $options) === $hashedValue;
+    }
+
+    /**
      * Hash the given value.
      *
      * @param  string $value
      * @param  array $options
      * @return string
      */
-    public function make($value, array $options = array())
-    {
+    public function make($value, array $options = array()) {
         $salt = Config::get('laravel-helpers::hash.salt');
         $type = Config::get('laravel-helpers::hash.type');
 
@@ -45,27 +55,13 @@ class CakeHasher implements HasherInterface {
     }
 
     /**
-     * Check the given plain value against a hash.
-     *
-     * @param  string $value
-     * @param  string $hashedValue
-     * @param  array $options
-     * @return bool
-     */
-    public function check($value, $hashedValue, array $options = array())
-    {
-        return $this->make($value, $options) === $hashedValue;
-    }
-
-    /**
      * Check if the given hash has been hashed using the given options.
      *
      * @param  string $hashedValue
      * @param  array $options
      * @return bool
      */
-    public function needsRehash($hashedValue, array $options = array())
-    {
+    public function needsRehash($hashedValue, array $options = array()) {
         return false;
     }
 }
