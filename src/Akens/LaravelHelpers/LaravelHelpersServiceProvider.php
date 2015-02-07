@@ -18,7 +18,9 @@ class LaravelHelpersServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        $this->package('akens/laravel-helpers');
+        $this->publishes([
+            __DIR__.'/../../config/hash.php' => config_path('hash.php'),
+        ]);
     }
 
     /**
@@ -27,7 +29,7 @@ class LaravelHelpersServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->app->bindShared('hash', function () {
+        $this->app->singleton('hash', function () {
             return new CakeHasher;
         });
     }
