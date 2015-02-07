@@ -30,8 +30,8 @@ class CakeHasher implements HasherContract {
      * @return string
      */
     public function make($value, array $options = array()) {
-        $salt = Config::get('laravel-helpers::hash.salt');
-        $type = Config::get('laravel-helpers::hash.type');
+        $salt = Config::get('hash.salt');
+        $type = Config::get('hash.type');
 
         if (!empty($salt)) {
             $value = $salt . $value;
