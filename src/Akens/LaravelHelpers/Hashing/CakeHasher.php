@@ -1,6 +1,6 @@
 <?php namespace Akens\LaravelHelpers\Hashing;
 
-use Illuminate\Hashing\HasherInterface;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
  *
  * @package Akens\Laravel\Hashing
  */
-class CakeHasher implements HasherInterface {
+class CakeHasher implements HasherContract {
 
     /**
      * Check the given plain value against a hash.

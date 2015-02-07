@@ -2,7 +2,6 @@
 
 use Illuminate\Support\ServiceProvider;
 use Akens\LaravelHelpers\Hashing\CakeHasher;
-use Akens\LaravelHelpers\Asset\Asset;
 
 class LaravelHelpersServiceProvider extends ServiceProvider {
 
@@ -31,9 +30,6 @@ class LaravelHelpersServiceProvider extends ServiceProvider {
         $this->app->bindShared('hash', function () {
             return new CakeHasher;
         });
-        $this->app->bindShared('asset', function () {
-            return new Asset;
-        });
     }
 
     /**
@@ -42,7 +38,7 @@ class LaravelHelpersServiceProvider extends ServiceProvider {
      * @return array
      */
     public function provides() {
-        return array('hash', 'asset');
+        return array('hash');
     }
 
 }
