@@ -45,15 +45,17 @@ class ParameterConverter {
      * @return \Illuminate\Database\Eloquent\Builder The query builder with the where clause added.
      */
     public function addWhereToQuery($query, $value) {
-        return $query->where($this->columnName, $this->getQueryOperator(), $this->getQueryValue($value));
+        return $query->where($this->columnName, $this->getQueryOperator($value), $this->getQueryValue($value));
     }
 
     /**
      * Gets the appropriate query operator for the query.
      *
-     * @return string The query operator used when adding a where clause to a query.
+     * @param string $value The parameter value to parse the operator from.
+     *
+     * @return string The query operator used when adding a where clause to a query.  Defaults to '='.
      */
-    protected function getQueryOperator() {
+    protected function getQueryOperator($value) {
         return '=';
     }
 

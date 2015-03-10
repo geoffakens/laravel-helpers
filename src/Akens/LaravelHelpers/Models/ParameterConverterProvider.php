@@ -27,9 +27,11 @@ class ParameterConverterProvider {
         Type::INTEGER => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
         Type::SMALLINT => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
         Type::BIGINT => 'Akens\LaravelHelpers\Models\IntegerParameterConverter',
+        Type::FLOAT => 'Akens\LaravelHelpers\Models\FloatParameterConverter',
+        Type::DECIMAL => 'Akens\LaravelHelpers\Models\FloatParameterConverter',
         Type::STRING => 'Akens\LaravelHelpers\Models\StringParameterConverter',
         Type::TEXT => 'Akens\LaravelHelpers\Models\StringParameterConverter',
-        Type::DATE => 'Akens\LaravelHelpers\Models\DateParameterConverter',
+        Type::DATE => 'Akens\LaravelHelpers\Models\DateParameterConverter'
     );
 
     /**

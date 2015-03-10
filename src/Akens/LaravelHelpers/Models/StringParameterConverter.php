@@ -20,9 +20,11 @@ class StringParameterConverter extends ParameterConverter {
     /**
      * Overrides the base implementation to provide a LIKE operator.
      *
+     * @param string $value The parameter value to parse the operator from.
+     *
      * @return string The query operator used when adding a where clause to a query.
      */
-    protected function getQueryOperator() {
+    protected function getQueryOperator($value) {
         return 'LIKE';
     }
 }

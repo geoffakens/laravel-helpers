@@ -5,7 +5,7 @@
  *
  * @package Akens\LaravelHelpers\Models
  */
-class IntegerParameterConverter extends ParameterConverter {
+class IntegerParameterConverter extends NumericParameterConverter {
     /**
      * Overrides the base implementation to convert a string parameter to an integer.
      *

@@ -3,13 +3,13 @@ namespace Akens\LaravelHelpers\Models;
 
 use Mockery;
 
-class IntegerParameterConverterTest extends \PHPUnit_Framework_TestCase {
+class FloatParameterConverterTest extends \PHPUnit_Framework_TestCase {
     private $columnName = 'column_name';
     private $converter;
 
     public function setUp()
     {
-        $this->converter = new IntegerParameterConverter($this->columnName, function($value) {
+        $this->converter = new FloatParameterConverter($this->columnName, function($value) {
             return $value;
         });
         parent::setUp();
@@ -25,30 +25,35 @@ class IntegerParameterConverterTest extends \PHPUnit_Framework_TestCase {
         $this->expectConversion('0', 0);
     }
 
+    public function testAddsWhereClauseForParameterWithValueOfZeroWithDecimal()
+    {
+        $this->expectConversion('0.0', 0);
+    }
+
     public function testAddsWhereClauseForParameterWithPositiveValue()
     {
-        $this->expectConversion('100', 100);
+        $this->expectConversion('100.34', 100.34);
     }
 
     public function testAddsWhereClauseForParameterWithNegativeValue()
     {
-        $this->expectConversion('-100', -100);
+        $this->expectConversion('-100.34', -100.34);
     }
 
     public function testAddsWhereClauseForParameterWithGreaterThanOperator()
     {
-        $this->expectConversion('>100', 100, '>');
+        $this->expectConversion('>100.34', 100.34, '>');
     }
 
     public function testAddsWhereClauseForParameterWithLessThanOperator()
     {
-        $this->expectConversion('<100', 100, '<');
+        $this->expectConversion('<100.34', 100.34, '<');
     }
 
     /**
      * @expectedException \Akens\LaravelHelpers\Models\InvalidParameterValueException
      */
-    public function testInvalidParameterValueExceptionIsThronwForInvalidValue()
+    public function testInvalidParameterValueExceptionIsThrownForInvalidValue()
     {
         $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
 
@@ -62,7 +67,7 @@ class IntegerParameterConverterTest extends \PHPUnit_Framework_TestCase {
     {
         $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
 
-        $this->converter->addWhereToQuery($mockQueryBuilder, '<>100');
+        $this->converter->addWhereToQuery($mockQueryBuilder, '<>100.34');
     }
 
     /**
