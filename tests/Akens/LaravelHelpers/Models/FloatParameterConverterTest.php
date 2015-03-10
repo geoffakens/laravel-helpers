@@ -50,6 +50,17 @@ class FloatParameterConverterTest extends \PHPUnit_Framework_TestCase {
         $this->expectConversion('<100.34', 100.34, '<');
     }
 
+    public function testAddsWhereClauseForParameterWithRange() {
+        $expectedValues = [10.5, 20.5];
+        $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
+        $mockQueryBuilder->shouldReceive('whereBetween')
+            ->with($this->columnName, $expectedValues)
+            ->once()
+            ->andReturn($mockQueryBuilder);
+
+        $this->converter->addWhereToQuery($mockQueryBuilder, "10.5-20.5");
+    }
+
     /**
      * @expectedException \Akens\LaravelHelpers\Models\InvalidParameterValueException
      */

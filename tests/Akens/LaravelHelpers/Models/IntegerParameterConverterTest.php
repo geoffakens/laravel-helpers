@@ -45,6 +45,28 @@ class IntegerParameterConverterTest extends \PHPUnit_Framework_TestCase {
         $this->expectConversion('<100', 100, '<');
     }
 
+    public function testAddsWhereClauseForParameterWithRange() {
+        $expectedValues = [10, 20];
+        $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
+        $mockQueryBuilder->shouldReceive('whereBetween')
+            ->with($this->columnName, $expectedValues)
+            ->once()
+            ->andReturn($mockQueryBuilder);
+
+        $this->converter->addWhereToQuery($mockQueryBuilder, "10-20");
+    }
+
+    public function testParameterWithFloatRangeIsConvertedToIntRange() {
+        $expectedValues = [10, 20];
+        $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
+        $mockQueryBuilder->shouldReceive('whereBetween')
+            ->with($this->columnName, $expectedValues)
+            ->once()
+            ->andReturn($mockQueryBuilder);
+
+        $this->converter->addWhereToQuery($mockQueryBuilder, "10.5-20.5");
+    }
+
     /**
      * @expectedException \Akens\LaravelHelpers\Models\InvalidParameterValueException
      */
