@@ -14,8 +14,6 @@ class FullTextParameterConverter extends ParameterConverter {
      * @return string The converted value.
      */
     public function convertValue($value) {
-        // TODO: Escape the value to prevent injection attacks.
-        // TODO: Parse tokens and convert to boolean mode.
         return $value;
     }
 
@@ -30,7 +28,7 @@ class FullTextParameterConverter extends ParameterConverter {
     public function addWhereToQuery($query, $value) {
         $term = $this->getQueryValue($value);
         $rawQuery = $query->getQuery();
-        $rawQuery->whereRaw("MATCH($this->columnName) AGAINST ('$term')");
+        $rawQuery->whereRaw("MATCH($this->columnName) AGAINST ($term)");
         return $query;
     }
 }

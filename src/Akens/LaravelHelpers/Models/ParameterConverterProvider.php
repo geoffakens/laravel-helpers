@@ -96,8 +96,9 @@ class ParameterConverterProvider {
 
         // Create ParameterConverters for each FULLTEXT index.
         $indexes = $schemaManager->listTableIndexes($tableName);
-        $fulltextValueConverter = function ($value) {
-            return $value;
+        $fulltextValueConverter = function ($value) use($connection) {
+            // Escape the parameter value to prevent injection attacks.
+            return $connection->getDoctrineConnection()->quote($value);
         };
         foreach ($indexes as $index) {
             if ($index->hasFlag('FULLTEXT')) {
