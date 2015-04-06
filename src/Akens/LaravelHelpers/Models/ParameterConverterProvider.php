@@ -75,6 +75,10 @@ class ParameterConverterProvider {
         // Query the table schema.
         $schemaManager = $connection->getDoctrineSchemaManager($tableName);
 
+        // Prevent errors from enum columns, which Doctrine doesn't currently support.
+        $platform = $schemaManager->getDatabasePlatform();
+        $platform->registerDoctrineTypeMapping('enum', 'string');
+
         // Create ParameterConverters for each column.
         $columns = $schemaManager->listTableColumns($tableName);
         foreach ($columns as $columnName => $column) {
