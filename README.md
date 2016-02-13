@@ -9,7 +9,7 @@ Install via Composer:
 
 ```js
 "require-dev": {
-    "akens/laravel-helpers": "1.4.*"
+    "akens/laravel-helpers": "1.6.*"
 }
 ```
 ## Documentation
