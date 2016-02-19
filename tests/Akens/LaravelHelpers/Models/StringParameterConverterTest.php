@@ -25,6 +25,17 @@ class StringParameterConverterTest extends \PHPUnit_Framework_TestCase {
         $this->expectConversion('query', 'query%');
     }
 
+    public function testAddsWhereInClauseWhenGivenAStringArray()
+    {
+        $mockQueryBuilder = Mockery::mock('\Illuminate\Database\Eloquent\Builder');
+        $mockQueryBuilder->shouldReceive('whereIn')
+            ->with($this->columnName, ['query1', 'query2'])
+            ->once()
+            ->andReturn($mockQueryBuilder);
+
+        $this->converter->addWhereToQuery($mockQueryBuilder, ['query1', 'query2']);
+    }
+
     /**
      * Helper function for parameter conversion tests.
      *
